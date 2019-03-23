@@ -32,17 +32,21 @@ systemctl restart docker
 ```
 
 3. Test it with username: `admin`, password `123456`  
-pull-cache:
+> First you may add record in to /etc/hosts, or set up a local dns, or get a real ca.crt:
+```
+echo xxx.xxx.xxx.xxx >> /etc/hosts
+```
+> pull-cache:
 ```
 curl -u admin:123456 https://docker.my.com/v2/_catalog
 docker login https://docker.my.com
 docker pull docker.my.com/library/busybox:latest
 curl -u admin:123456 https://docker.my.com/v2/_catalog
 ```
-push locally:
+> push locally:
 ```
 docker tag docker.my.com/library/busybox:latest docker.my.com:442/local/busybox:latest
 docker push docker.my.com:442/local/busybox:latest
 curl -u admin:123456 https://docker.my.com/v2/_catalog
 ```
-Push through port 442, and pull through default.
+> Now you can push through port 442, and pull through default.
