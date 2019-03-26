@@ -4,10 +4,10 @@ keywords: registry, pull-cache, push, images, repository, distribution, recipes
 title: One example
 ---
 
-After all the recipes read, an example may need be refered, which contains:
+An example list below was established through registry:2, which contains:
 1. authenticate proxy with nginx  
 2. pull-cache  
-3. push local images at the same time  
+3. local storage of self built and pushed images  
 
 # Mechanism
 
