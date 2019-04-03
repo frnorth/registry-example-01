@@ -19,7 +19,7 @@ Once a self registry is built as a pull-cache, it can not be used as a local war
 git clone https://github.com/frnorth/registry-example-01.git ~/
 cd ~/registry-example-01
 sed -i 's/xxxxxx/yourname/' ./pull/config.yml
-sed -i 's/******/yourpassword/' ./pull/config.yml
+sed -i 's/++++++/yourpassword/' ./pull/config.yml
 ./setup.sh
 ```
 2. A self signed `./pull/auth/my.crt` certificate with a domain name `"https://docker.my.com"` was used as a local test. If you want to use it, then:  

@@ -21,5 +21,5 @@ health:
 proxy:
   remoteurl: https://registry-1.docker.io
   username: xxxxxx
-  password: ******
+  password: ++++++
 
