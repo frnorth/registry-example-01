@@ -1,20 +1,20 @@
 ---
-description: an example of self built registry, with pull-cache and push local images
-keywords: registry, pull-cache, push, images, repository, distribution, recipes
+description: an example of self built registry, with pull-cache and push-storage
+keywords: registry, example, pull-cache, push, images, repository, distribution, recipes
 title: One example
 ---
 
 An example list below was a summary of "Docker Registry" documetation, which contains:
 1. authenticate proxy with nginx  
 2. pull-cache  
-3. local storage of self built and pushed images  
+3. push-storage for local self-built images  
 
 # Mechanism
 
-Once a self registry is built as a pull-cache, it can not be used as a local warehouse to push images. The solution is compose another registry on port 442, with the same data volum as the pull-cache registry.
+Once a self registry is built as a pull-cache, it can not be used as a local warehouse to push images into. The solution is compose another registry on port 442, with the same data volum as the pull-cache registry.
 
 # Setup
-1. Docker and docker-compuse should be installed first, and instructions below may be followed then, where `yourname` and `yourpasword` is your id and password to `https://hub.docker.com`, for the purpose of pull-cache   
+1. Docker and docker-compuse should be installed first, then instructions below may be followed. The `yourname` and `yourpasword` is your id and password to `https://hub.docker.com`, for the purpose of pull-cache.   
 ```
 git clone https://github.com/frnorth/registry-example-01.git ~/
 cd ~/registry-example-01
@@ -30,13 +30,13 @@ cp ./pull/auth/my.crt /etc/docker/certs.d/
 update-ca-trust
 systemctl restart docker
 ```
-> Above are in Centos, if want to use Ubuntu:
+> Above is for Centos, as for Ubuntu:
 ```
 /etc/pki/ca-trust/source/anchors/ --> /usr/local/share/ca-certificates/
 ```
 
 # Test
-Test it with username: `admin`, password `123456` for docker login, and curl:    
+Username and password of the self-built registry is `admin` and `123456`, use this for docker login, and curl:    
 1. First you may add record in to `/etc/hosts`, or set up a local `dns server`, or get a real `ca.crt` to replace `my.crt`:
 ```
 echo xxx.xxx.xxx.xxx >> /etc/hosts    # xxx.xxx.xxx.xxx is ip address
@@ -53,6 +53,9 @@ curl -u admin:123456 https://docker.my.com/v2/_catalog
 docker login https://docker.my.com:442
 docker tag docker.my.com/library/busybox:latest docker.my.com:442/local/busybox:latest
 docker push docker.my.com:442/local/busybox:latest
+```
+Then you may find out your images in docker.my.com:
+```
 curl -u admin:123456 https://docker.my.com/v2/_catalog
 ```
 > Now you can push through port 442, and pull through default, be sure to login to both port.
