@@ -13,10 +13,10 @@ An example list below was a summary of "Docker Registry" documetation, which con
 
 Once a self registry is built as a pull-cache, it can not be used as a local warehouse to push images into. The solution is compose another registry on port 442, with the same data volum as the pull-cache registry.
 
-# Setup
+# Setup for Centos
 1. Docker and docker-compuse should be installed first, then instructions below may be followed. The `yourname` and `yourpasword` is your id and password to `https://hub.docker.com`, for the purpose of pull-cache.   
 ```
-git clone https://github.com/frnorth/registry-example-01.git ~/
+git clone https://github.com/frnorth/registry-example-01.git ~/registry-example-01
 cd ~/registry-example-01
 sed -i 's/xxxxxx/yourname/' ./pull/config.yml
 sed -i 's/++++++/yourpassword/' ./pull/config.yml
@@ -30,16 +30,17 @@ cp ./pull/auth/my.crt /etc/docker/certs.d/
 update-ca-trust
 systemctl restart docker
 ```
-> Above is for Centos, as for Ubuntu:
+> As for Ubuntu, replace:
 ```
 /etc/pki/ca-trust/source/anchors/ --> /usr/local/share/ca-certificates/
 ```
+And, if you want to test the self-built registry from another computer, you need to repeat setp 2.
 
 # Test
-Username and password of the self-built registry is `admin` and `123456`, use this for docker login, and curl:    
+Username and password of the self-built registry is `admin` and `123456`, use these for docker login:    
 1. First you may add record in to `/etc/hosts`, or set up a local `dns server`, or get a real `ca.crt` to replace `my.crt`:
 ```
-echo xxx.xxx.xxx.xxx >> /etc/hosts    # xxx.xxx.xxx.xxx is ip address
+echo "xxx.xxx.xxx.xxx docker.my.com" >> /etc/hosts    # xxx.xxx.xxx.xxx is ip address of the server where your self-built registry located
 ```
 2. pull-cache:
 ```
